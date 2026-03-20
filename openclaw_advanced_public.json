@@ -1,0 +1,1594 @@
+{
+  "//": "OpenClaw \u2014 Advanced Hybrid Config (v2.7) \u2014 Local Ollama + Cloud agents + Intelligent routing",
+  "gateway": {
+    "bind": "127.0.0.1",
+    "port": 18789,
+    "tls": {
+      "enabled": true,
+      "certPath": "C:/Users/%USERNAME%/.openclaw/certs/server.crt",
+      "keyPath": "C:/Users/%USERNAME%/.openclaw/certs/server.key",
+      "minVersion": "1.3"
+    },
+    "rateLimit": {
+      "enabled": true,
+      "requestsPerMinute": 120,
+      "burst": 40
+    },
+    "cors": {
+      "enabled": false
+    }
+  },
+  "system": {
+    "platform": "windows-wsl2",
+    "resourceProfile": "high-end-laptop-16gb",
+    "storage": {
+      "ssdPath": "/mnt/c/Users/%USERNAME%/OpenClawWorkspace",
+      "hddPath": "/mnt/d/OpenClawData",
+      "tempPath": "/mnt/c/Users/%USERNAME%/AppData/Local/Temp/OpenClaw",
+      "maxCacheSizeGB": 50,
+      "autoPruneImages": true,
+      "pruneIntervalHours": 48
+    },
+    "performance": {
+      "parallelAgents": 2,
+      "maxConcurrentContainers": 2,
+      "cpuQuota": 0.85,
+      "ioPriority": "best-effort"
+    },
+    "updatePolicy": {
+      "enabled": true,
+      "checkIntervalDays": 7,
+      "autoApplySecurityPatches": false,
+      "requireApproval": true,
+      "version": "v2.3-FreeOffline-patched",
+      "lastChecked": null,
+      "updateScript": "/mnt/d/OpenClawData/update.sh",
+      "//securityAdvisorySource": "FIX: placeholder URL removed \u2014 update this once you know your real advisory feed URL",
+      "securityAdvisorySource": null
+    }
+  },
+  "tools": {
+    "fs": {
+      "allow": [
+        "read",
+        "write",
+        "stat",
+        "copy"
+      ],
+      "deny": [
+        "delete",
+        "chmod",
+        "chown",
+        "symlink",
+        "hardlink",
+        "mknod"
+      ],
+      "workspaceOnly": true,
+      "workspaceRoot": "/workspace",
+      "hostWorkspacePath": "/mnt/c/Users/%USERNAME%/OpenClawWorkspace",
+      "maxFileSizeMB": 100,
+      "blockedExtensions": [
+        ".exe",
+        ".dll",
+        ".bat",
+        ".cmd",
+        ".ps1",
+        ".vbs",
+        ".scr",
+        ".env",
+        ".key",
+        ".pem",
+        ".pfx",
+        ".cer",
+        ".ssh",
+        ".cert",
+        ".ovpn",
+        ".sqlite",
+        ".db",
+        ".reg",
+        ".msi",
+        ".tfvars",
+        ".npmrc"
+      ],
+      "sensitivePatterns": [
+        "AKIA[0-9A-Z]{16}",
+        "ghp_[a-zA-Z0-9]{36}",
+        "sk-[a-zA-Z0-9]{48}",
+        "sk-live-[a-zA-Z0-9]{24,}",
+        "private_key",
+        "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----",
+        "mongodb(\\+srv)?://",
+        "postgres(ql)?://",
+        "Server=tcp:.*Database=",
+        "AccountKey=",
+        "DefaultEndpointsProtocol="
+      ]
+    },
+    "exec": {
+      "policy": "ask",
+      "allowedBins": [
+        "ls",
+        "pwd",
+        "cat",
+        "echo",
+        "python3",
+        "python",
+        "node",
+        "npm",
+        "npx",
+        "grep",
+        "head",
+        "tail",
+        "wc",
+        "find",
+        "sort",
+        "uniq",
+        "diff",
+        "tar",
+        "zip",
+        "unzip",
+        "gzip",
+        "go",
+        "golangci-lint",
+        "rustc",
+        "cargo",
+        "clippy-driver",
+        "javac",
+        "java",
+        "checkstyle",
+        "spotbugs",
+        "pmd"
+      ],
+      "blockedPatterns": [
+        "curl.*\\|.*sh",
+        "wget.*\\|.*sh",
+        "fetch.*\\|.*sh",
+        "eval\\(.*\\)",
+        "base64.*decode.*\\|",
+        "powershell.*-enc",
+        "powershell.*-ep bypass",
+        "cmd\\.exe",
+        "command\\.com",
+        "bash.*-i.*>&.*\\/dev\\/tcp",
+        "nc\\s+-[eln].*-[e]",
+        "netcat.*-[e]",
+        "mkfifo.*\\/bin\\/sh",
+        "python.*-c.*socket.*connect",
+        "start-process",
+        "invoke-expression",
+        "iex",
+        "regsvr32",
+        "mshta",
+        "certutil.*-decode",
+        "bitsadmin",
+        "wscript",
+        "cscript"
+      ],
+      "timeoutSeconds": 120,
+      "maxOutputKB": 1024,
+      "askCooldownSeconds": 2,
+      "maxPendingAsks": 5,
+      "groupSimilarAsks": true,
+      "windowsSafeMode": true,
+      "requireConfirmationFor": [
+        "write",
+        "network",
+        "sudo",
+        "docker",
+        "rm",
+        "del",
+        "rmdir",
+        "format"
+      ]
+    },
+    "browser": {
+      "allow": false,
+      "dnsAllowlist": [],
+      "blockedDomains": [
+        "localhost",
+        "127.0.0.1",
+        "0.0.0.0",
+        "[::1]",
+        "169.254.169.254",
+        "*.internal",
+        "metadata.google.internal",
+        "metadata.aws.internal",
+        "file://*",
+        "\\\\*",
+        "C:*",
+        "D:*"
+      ]
+    },
+    "git": {
+      "enabled": true,
+      "mode": "read-only-import",
+      "allowedOperations": [
+        "clone",
+        "fetch",
+        "checkout",
+        "diff",
+        "log",
+        "show",
+        "branch",
+        "status"
+      ],
+      "deniedOperations": [
+        "push",
+        "merge",
+        "rebase",
+        "submodule",
+        "worktree",
+        "gc",
+        "prune"
+      ],
+      "safety": {
+        "depth": 5,
+        "disableHooks": true,
+        "verifyCommitSignatures": false,
+        "scanForSecrets": true,
+        "allowedSchemes": [
+          "https"
+        ],
+        "blockedHosts": [
+          "gist.github.com",
+          "pastebin.com",
+          "0x0.st",
+          "termbin.com"
+        ],
+        "importPath": "/mnt/d/OpenClawData/repos/",
+        "autoDeleteAfterDays": 14,
+        "maxRepoSizeMB": 500,
+        "enableLfs": false
+      },
+      "execPolicy": "ask"
+    },
+    "packageManagers": {
+      "enabled": true,
+      "policy": "ephemeral",
+      "allowed": [
+        "pip",
+        "npm",
+        "yarn",
+        "pnpm"
+      ],
+      "constraints": {
+        "virtualEnv": true,
+        "isolated": true,
+        "noBinary": false,
+        "timeoutSeconds": 180,
+        "maxPackagesPerSession": 20,
+        "blocklist": [
+          "pynput",
+          "keyboard",
+          "mouse",
+          "autopy",
+          "pyautogui",
+          "wmi",
+          "pywin32",
+          "win32api",
+          "ctypes.windll"
+        ],
+        "postInstallScan": "safety",
+        "autoPurge": true,
+        "cacheLocation": "/mnt/d/OpenClawData/cache/",
+        "maxCacheGB": 30
+      }
+    },
+    "databases": {
+      "enabled": true,
+      "engines": [
+        "duckdb",
+        "sqlite"
+      ],
+      "mode": "in-memory-ephemeral",
+      "constraints": {
+        "maxFileSizeMB": 200,
+        "maxMemoryMB": 1024,
+        "persistentStorage": false,
+        "allowAttach": false,
+        "blockedFunctions": [
+          "load_extension",
+          "shell",
+          "system",
+          "readfile",
+          "writefile"
+        ],
+        "allowedOperations": [
+          "SELECT",
+          "CREATE",
+          "INSERT",
+          "UPDATE",
+          "DELETE",
+          "COPY",
+          "EXPORT",
+          "IMPORT"
+        ],
+        "auditQueries": true,
+        "tempDirectory": "/mnt/d/OpenClawData/tmp"
+      },
+      "import": {
+        "allowedFormats": [
+          "csv",
+          "json",
+          "parquet",
+          "xlsx"
+        ],
+        "maxRows": 200000,
+        "sanitization": "strict"
+      }
+    },
+    "analysisTools": {
+      "enabled": true,
+      "tools": {
+        "python": {
+          "bandit": {
+            "enabled": true,
+            "confidence": "medium",
+            "exclude": [
+              "B101"
+            ]
+          },
+          "ruff": {
+            "enabled": true,
+            "select": [
+              "E",
+              "F",
+              "I",
+              "N",
+              "W",
+              "UP",
+              "B",
+              "C4",
+              "SIM",
+              "ARG"
+            ]
+          },
+          "mypy": {
+            "enabled": true,
+            "strict": false
+          }
+        },
+        "javascript": {
+          "eslint": {
+            "enabled": true,
+            "config": "security"
+          },
+          "semgrep": {
+            "enabled": true,
+            "rules": [
+              "p/owasp-top-ten"
+            ]
+          }
+        },
+        "go": {
+          "golangci-lint": {
+            "enabled": true,
+            "config": ".golangci.yml"
+          },
+          "staticcheck": {
+            "enabled": true
+          }
+        },
+        "rust": {
+          "clippy": {
+            "enabled": true,
+            "additionalArgs": [
+              "-D",
+              "warnings"
+            ]
+          },
+          "cargo-audit": {
+            "enabled": true
+          }
+        },
+        "java": {
+          "checkstyle": {
+            "enabled": true,
+            "config": "google_checks.xml"
+          },
+          "spotbugs": {
+            "enabled": true,
+            "effort": "max"
+          },
+          "pmd": {
+            "enabled": true,
+            "rulesets": [
+              "category/java/security.xml"
+            ]
+          }
+        }
+      },
+      "policy": "report-only",
+      "maxFileSizeKB": 1024,
+      "timeoutSeconds": 90,
+      "runInParallel": true,
+      "maxParallelJobs": 2
+    },
+    "testing": {
+      "enabled": true,
+      "frameworks": [
+        "pytest",
+        "jest",
+        "vitest",
+        "go-test",
+        "cargo-test",
+        "junit"
+      ],
+      "sandbox": {
+        "network": "none",
+        "timeoutSeconds": 120,
+        "maxMemoryMB": 2048,
+        "coverage": true,
+        "parallel": true,
+        "maxParallel": 2,
+        "cpuLimit": 3
+      },
+      "constraints": {
+        "blockNetworkTests": true,
+        "mockFilesystem": true,
+        "maxTestDuration": 60,
+        "failFast": false,
+        "maxTestFiles": 50
+      },
+      "reporting": {
+        "format": "junit+xml",
+        "coverageThreshold": 75,
+        "diffCoverage": true
+      }
+    },
+    "apiProxy": {
+      "enabled": true,
+      "mode": "allowlist-only",
+      "allowedEndpoints": [
+        {
+          "name": "pypi-index",
+          "host": "pypi.org",
+          "port": 443,
+          "methods": [
+            "GET"
+          ],
+          "pathRegex": "^/simple/",
+          "rateLimit": "60/minute"
+        },
+        {
+          "name": "npm-registry",
+          "host": "registry.npmjs.org",
+          "port": 443,
+          "methods": [
+            "GET"
+          ],
+          "rateLimit": "100/minute"
+        },
+        {
+          "name": "github-api",
+          "host": "api.github.com",
+          "port": 443,
+          "methods": [
+            "GET"
+          ],
+          "rateLimit": "60/hour",
+          "pathRegex": "^/(repos|gists|search)/"
+        }
+      ],
+      "deniedPatterns": [
+        "169\\.254\\.169\\.254",
+        "metadata\\.google",
+        "localhost",
+        "127\\.0\\.0\\.1",
+        "\\.internal$"
+      ]
+    },
+    "planning": {
+      "enabled": true,
+      "mode": "approve-plan-not-steps",
+      "maxStepsPerPlan": 15,
+      "dryRun": true,
+      "rollback": {
+        "enabled": true,
+        "snapshots": 10,
+        "snapshotLocation": "/mnt/d/OpenClawData/snapshots",
+        "autoSnapshotBefore": [
+          "write",
+          "exec",
+          "git-checkout",
+          "package-install"
+        ],
+        "compression": true
+      },
+      "verification": {
+        "syntaxCheck": true,
+        "testsMustPass": true,
+        "maxSyntaxCheckTime": 30
+      }
+    },
+    "fileWatcher": {
+      "enabled": true,
+      "scope": "workspace",
+      "triggers": [
+        {
+          "pattern": "*.py",
+          "onChange": [
+            "lint",
+            "typecheck"
+          ],
+          "debounceSeconds": 2,
+          "notify": true,
+          "maxFilesPerScan": 100
+        },
+        {
+          "pattern": "requirements*.txt",
+          "onChange": [
+            "audit-dependencies"
+          ],
+          "blockOnVulnerability": "high"
+        },
+        {
+          "pattern": "package*.json",
+          "onChange": [
+            "audit-dependencies"
+          ],
+          "blockOnVulnerability": "high"
+        },
+        {
+          "pattern": "*.go",
+          "onChange": [
+            "golangci-lint"
+          ],
+          "debounceSeconds": 2,
+          "notify": true
+        },
+        {
+          "pattern": "*.rs",
+          "onChange": [
+            "clippy"
+          ],
+          "debounceSeconds": 2,
+          "notify": true
+        },
+        {
+          "pattern": "*.java",
+          "onChange": [
+            "checkstyle"
+          ],
+          "debounceSeconds": 2,
+          "notify": true
+        }
+      ],
+      "execution": "read-only",
+      "maxMemoryMB": 512
+    },
+    "documentation": {
+      "enabled": true,
+      "tools": [
+        "mkdocs",
+        "sphinx",
+        "jsdoc"
+      ],
+      "syncStrategy": "ast-triggered",
+      "autoUpdate": {
+        "readme": true,
+        "changelog": true,
+        "docstrings": true
+      },
+      "constraints": {
+        "requireApprovalForPublicAPI": true,
+        "maxAutoChanges": 50
+      }
+    },
+    "templates": {
+      "enabled": true,
+      "engine": "cookiecutter",
+      "sandbox": true,
+      "allowedTemplates": [
+        "https://github.com/your-org/secure-python-template",
+        "local://~/openclaw-templates/"
+      ],
+      "inputSanitization": "strict",
+      "postGenerate": [
+        "bandit-scan",
+        "git-init-safe"
+      ],
+      "outputDirectory": "/mnt/c/Users/%USERNAME%/OpenClawWorkspace/projects/"
+    }
+  },
+  "agents": {
+    "defaults": {
+      "elevatedDefault": "ask",
+      "modelRouting": {
+        "strategy": "privacy-first",
+        "//note": "FIX: Gemini cloud fallback removed from multimodal to preserve privacy-first strategy. Use ollama/llava locally if you need multimodal.",
+        "models": {
+          "reasoning": {
+            "primary": "ollama/glm-4.7-flash",
+            "fallback": "groq/llama-3.3-70b-versatile",
+            "timeout": 45,
+            "temperature": 0.2
+          },
+          "fast": {
+            "primary": "groq/llama-3.1-8b-instant",
+            "fallback": "ollama/llama3.3",
+            "timeout": 20,
+            "temperature": 0.1
+          },
+          "creative": {
+            "primary": "ollama/llama3.3",
+            "fallback": "groq/llama-3.3-70b-versatile",
+            "timeout": 60,
+            "temperature": 0.7
+          },
+          "multimodal": {
+            "primary": "ollama/llava",
+            "fallback": "ollama/llama3.3",
+            "timeout": 45,
+            "temperature": 0.3
+          },
+          "code": {
+            "primary": "ollama/qwen3-coder",
+            "fallback": "groq/llama-3.3-70b-versatile",
+            "timeout": 45,
+            "temperature": 0.1
+          }
+        },
+        "fallbackOrder": [
+          "ollama/glm-4.7-flash",
+          "ollama/llama3.3",
+          "ollama/qwen3-coder",
+          "groq/llama-3.3-70b-versatile"
+        ],
+        "timeoutSeconds": 45,
+        "retryAttempts": 3,
+        "circuitBreaker": {
+          "failureThreshold": 5,
+          "recoveryTimeout": 120
+        }
+      },
+      "limits": {
+        "maxSteps": 30,
+        "maxRuntimeSeconds": 600,
+        "maxCostPerSession": 10.0,
+        "tokenBudget": 250000,
+        "concurrentAgents": 6,
+        "maxCostPerOrchestration": 30.0,
+        "tokenBudgetPerOrchestration": 500000
+      },
+      "model": {
+        "maxTokens": 4000,
+        "temperature": 0.3,
+        "topP": 0.9,
+        "frequencyPenalty": 0.0,
+        "presencePenalty": 0.0
+      },
+      "safety": {
+        "promptInjectionCheck": true,
+        "jailbreakDetection": true,
+        "outputFiltering": true,
+        "refusalPatterns": [
+          "ignore previous instructions",
+          "DAN mode",
+          "jailbreak",
+          "Developer Mode"
+        ]
+      }
+    },
+    "subAgents": {
+      "//source": "Model selections based on March 2026 benchmarks. See //rationale per agent.",
+      "swe": {
+        "//rationale": "MiniMax M2.5 leads SWE-bench Verified at 80.2 \u2014 highest of any open model for resolving real GitHub issues. Best for multi-file refactors, PR reviews, and bug fixes in existing codebases.",
+        "role": "Software engineering \u2014 bug fixing, PR review, real-world refactors",
+        "model": {
+          "primary": "ollama/minimax-m2.5",
+          "fallback": "ollama/glm-4.7-flash",
+          "temperature": 0.1,
+          "timeout": 90
+        },
+        "tools": [
+          "fs.read",
+          "fs.write",
+          "exec.allowlist",
+          "git.read",
+          "analysisTools"
+        ],
+        "limits": {
+          "maxSteps": 20,
+          "maxRuntimeSeconds": 480,
+          "tokenBudget": 80000
+        },
+        "elevatedDefault": "ask"
+      },
+      "math-reasoning": {
+        "//rationale": "Phi-4 (14B) scores 80.4% on MATH benchmark \u2014 beats Qwen2.5 14B (75.6%) and Llama 3.3 8B (68.0%) while fitting comfortably in 16GB RAM. Best for algorithmic problems, complexity analysis, and step-by-step reasoning.",
+        "role": "Math, algorithms, complexity analysis, structured reasoning",
+        "model": {
+          "primary": "ollama/phi4",
+          "fallback": "ollama/glm-4.7-flash",
+          "temperature": 0.1,
+          "timeout": 60
+        },
+        "tools": [
+          "fs.read",
+          "exec.python-only",
+          "databases.read"
+        ],
+        "limits": {
+          "maxSteps": 15,
+          "maxRuntimeSeconds": 300,
+          "tokenBudget": 30000,
+          "//note": "Phi-4 has a 16K context window \u2014 keep tokenBudget low to avoid context cliff"
+        },
+        "elevatedDefault": "ask"
+      },
+      "fast-autocomplete": {
+        "//rationale": "Qwen3 7B leads HumanEval among all sub-8B models at 76.0 \u2014 a 3.4pt margin over Llama 3.3 8B. Runs at high tokens/sec on 16GB RAM \u2014 ideal for rapid completions, small edits, and explain-this-error queries.",
+        "role": "Fast completions, small edits, inline explanations",
+        "model": {
+          "primary": "ollama/qwen3:7b",
+          "fallback": "ollama/llama3.3",
+          "temperature": 0.1,
+          "timeout": 15
+        },
+        "tools": [
+          "fs.read",
+          "exec.none"
+        ],
+        "limits": {
+          "maxSteps": 5,
+          "maxRuntimeSeconds": 60,
+          "tokenBudget": 16000
+        },
+        "elevatedDefault": "none"
+      },
+      "security": {
+        "//rationale": "DeepSeek V3.2 combines Sparse Attention for long-context efficiency with explicit agentic tool-use training \u2014 best local model for scanning large codebases, dependency audits, and CVE research across many files simultaneously.",
+        "role": "Security audits, CVE research, dependency scanning, threat modelling",
+        "model": {
+          "primary": "ollama/deepseek-v3.2",
+          "fallback": "ollama/glm-4.7-flash",
+          "temperature": 0.05,
+          "timeout": 120
+        },
+        "tools": [
+          "fs.read",
+          "exec.allowlist",
+          "git.read",
+          "analysisTools",
+          "databases.read"
+        ],
+        "limits": {
+          "maxSteps": 25,
+          "maxRuntimeSeconds": 600,
+          "tokenBudget": 100000
+        },
+        "elevatedDefault": "ask",
+        "safety": {
+          "outputFiltering": true,
+          "neverSuggestExploits": true,
+          "reportOnly": true
+        }
+      },
+      "docs-writer": {
+        "//rationale": "Llama 3.3 70B produces the most coherent long-form prose of the local open models \u2014 better than coding-optimised models for narrative clarity, README generation, and API documentation.",
+        "role": "README generation, docstrings, changelogs, API docs, technical writing",
+        "model": {
+          "primary": "ollama/llama3.3",
+          "fallback": "ollama/qwen3-coder",
+          "temperature": 0.4,
+          "timeout": 60
+        },
+        "tools": [
+          "fs.read",
+          "fs.write",
+          "documentation"
+        ],
+        "limits": {
+          "maxSteps": 10,
+          "maxRuntimeSeconds": 240,
+          "tokenBudget": 40000
+        },
+        "elevatedDefault": "ask",
+        "constraints": {
+          "requireApprovalForPublicAPI": true,
+          "maxAutoChanges": 30
+        }
+      }
+    },
+    "cloudAgents": {
+      "//warning": "PRIVACY: All cloud agents send data to external providers. This overrides the privacy-first strategy set in modelRouting. Only route tasks here that you are comfortable leaving your machine. Never route tasks containing secrets, credentials, or sensitive personal data.",
+      "//apiKeys": "Add each provider key to your environment: ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY, MOONSHOT_API_KEY, XAI_API_KEY, PERPLEXITY_API_KEY",
+      "cloud-swe": {
+        "//rationale": "Claude Sonnet 4.6 leads real-world software engineering. SWE-bench Verified 79.6% \u2014 only 1.2pts behind Opus 4.6 at one fifth the price ($1/$5 vs $15/$75 per 1M). Powers Cursor and Windsurf in production. 1M context window handles entire codebases. Best cloud pick for PR review, multi-file refactors, and production-critical bug fixes.",
+        "role": "Production-critical bug fixes, large PR reviews, full-codebase refactors",
+        "provider": "anthropic",
+        "model": "claude-sonnet-4-6",
+        "apiKeyEnv": "ANTHROPIC_API_KEY",
+        "pricing": {
+          "inputPer1M": 1.0,
+          "outputPer1M": 5.0,
+          "//note": "Verify current pricing at provider's website before use \u2014 rates change frequently."
+        },
+        "contextWindow": 1000000,
+        "temperature": 0.1,
+        "timeout": 120,
+        "tools": [
+          "fs.read",
+          "fs.write",
+          "exec.allowlist",
+          "git.read",
+          "analysisTools"
+        ],
+        "limits": {
+          "maxSteps": 25,
+          "maxRuntimeSeconds": 600,
+          "tokenBudget": 200000,
+          "maxCostPerCall": 2.0
+        },
+        "privacy": {
+          "allowPII": false,
+          "allowSecrets": false,
+          "allowProprietaryCode": false,
+          "note": "Only route non-sensitive code. No API keys, passwords, or internal business logic."
+        },
+        "elevatedDefault": "ask"
+      },
+      "cloud-terminal": {
+        "//rationale": "GPT-5.3 Codex dominates Terminal-Bench by a wide margin \u2014 the benchmark measuring autonomous CLI task completion. Deep GitHub integration with automatic PR creation. Best for async, parallelised coding workflows that don't need to block local development.",
+        "role": "Autonomous terminal tasks, async PR creation, parallel sandboxed execution",
+        "provider": "openai",
+        "model": "gpt-5.3-codex",
+        "apiKeyEnv": "OPENAI_API_KEY",
+        "pricing": {
+          "inputPer1M": 1.75,
+          "outputPer1M": 14.0,
+          "//note": "Verify current pricing at provider's website before use \u2014 rates change frequently."
+        },
+        "contextWindow": 256000,
+        "temperature": 0.05,
+        "timeout": 180,
+        "tools": [
+          "exec.allowlist",
+          "git.read",
+          "git.write-pr"
+        ],
+        "limits": {
+          "maxSteps": 30,
+          "maxRuntimeSeconds": 900,
+          "tokenBudget": 100000,
+          "maxCostPerCall": 3.0
+        },
+        "privacy": {
+          "allowPII": false,
+          "allowSecrets": false,
+          "allowProprietaryCode": false
+        },
+        "elevatedDefault": "ask"
+      },
+      "cloud-documents": {
+        "//rationale": "Gemini 3.1 Pro holds the highest Artificial Analysis Intelligence Index score (57) and leads on GPQA Diamond (94.3%). Its 1M context window is the most reliable for large document ingestion. Cheapest output of any frontier model at $2/$12 per 1M \u2014 up to 75% off with context caching for repeated system prompts. Best for processing entire docs, specs, or large codebases in one pass.",
+        "role": "Large document analysis, spec comprehension, full-codebase understanding",
+        "provider": "google",
+        "model": "gemini-3.1-pro",
+        "apiKeyEnv": "GOOGLE_API_KEY",
+        "pricing": {
+          "inputPer1M": 2.0,
+          "outputPer1M": 12.0,
+          "cachedInputPer1M": 0.5,
+          "//note": "Verify current pricing at provider's website before use \u2014 rates change frequently."
+        },
+        "contextWindow": 1000000,
+        "contextCaching": true,
+        "temperature": 0.2,
+        "timeout": 120,
+        "tools": [
+          "fs.read",
+          "databases.read"
+        ],
+        "limits": {
+          "maxSteps": 15,
+          "maxRuntimeSeconds": 480,
+          "tokenBudget": 500000,
+          "maxCostPerCall": 4.0
+        },
+        "privacy": {
+          "allowPII": false,
+          "allowSecrets": false,
+          "allowProprietaryCode": false,
+          "note": "Large context means more data leaving your machine per call \u2014 be deliberate about what you send."
+        },
+        "elevatedDefault": "ask"
+      },
+      "cloud-agentic": {
+        "//rationale": "Kimi K2.5 wins agentic automation and cost-efficiency. 76.8% SWE-bench Verified at $0.60/$2.20 per 1M tokens \u2014 10x cheaper than Claude Opus. Agent Swarm autonomously spawns up to 100 parallel sub-agents handling up to 1,500 tool calls. Best for parallelised research, competitive analysis, and batch automation where cost matters more than peak accuracy.",
+        "role": "Parallelised research, batch automation, competitive analysis, visual coding from UI designs",
+        "provider": "moonshot",
+        "model": "kimi-k2.5",
+        "apiKeyEnv": "MOONSHOT_API_KEY",
+        "pricing": {
+          "inputPer1M": 0.6,
+          "outputPer1M": 2.2,
+          "//note": "Verify current pricing at provider's website before use \u2014 rates change frequently."
+        },
+        "contextWindow": 262144,
+        "temperature": 0.2,
+        "timeout": 120,
+        "agentSwarm": {
+          "enabled": true,
+          "maxParallelAgents": 10,
+          "maxToolCalls": 200,
+          "note": "Full Agent Swarm (100 agents / 1500 tool calls) available but capped here for cost control \u2014 raise limits only for large batch jobs"
+        },
+        "tools": [
+          "fs.read",
+          "browser.allowlist",
+          "databases.read"
+        ],
+        "limits": {
+          "maxSteps": 40,
+          "maxRuntimeSeconds": 1200,
+          "tokenBudget": 150000,
+          "maxCostPerCall": 1.0
+        },
+        "privacy": {
+          "allowPII": false,
+          "allowSecrets": false,
+          "allowProprietaryCode": false
+        },
+        "elevatedDefault": "ask"
+      },
+      "cloud-realtime-research": {
+        "//rationale": "Perplexity Sonar is purpose-built for real-time web research with inline citations. Unlike general LLMs, every answer is grounded in live web results \u2014 no hallucinated sources. At $1.30/$1.30 per 1M (flat rate), it is the cheapest way to get verified, up-to-date information. Best for CVE lookups, library version checks, and any task that needs current facts.",
+        "role": "Live web research, CVE lookups, dependency version checks, current events",
+        "provider": "perplexity",
+        "model": "sonar",
+        "apiKeyEnv": "PERPLEXITY_API_KEY",
+        "pricing": {
+          "inputPer1M": 1.3,
+          "outputPer1M": 1.3,
+          "//note": "Verify current pricing at provider's website before use \u2014 rates change frequently."
+        },
+        "contextWindow": 128000,
+        "temperature": 0.1,
+        "timeout": 30,
+        "tools": [
+          "browser.search-only"
+        ],
+        "limits": {
+          "maxSteps": 5,
+          "maxRuntimeSeconds": 60,
+          "tokenBudget": 20000,
+          "maxCostPerCall": 0.1
+        },
+        "privacy": {
+          "allowPII": false,
+          "allowSecrets": false,
+          "note": "Queries are sent to Perplexity and then to web search engines \u2014 treat as fully public."
+        },
+        "elevatedDefault": "none"
+      },
+      "cloud-multiagent-coding": {
+        "//rationale": "Grok 4 scored 75% on SWE-bench with notably low hallucination rate. Its multi-agent architecture (Grok 4.20 runs 4 agents in parallel natively) and 256K context make it strong for complex multi-step coding tasks. Real-time X/web data access is unique \u2014 useful for checking current library issues, release notes, or breaking changes.",
+        "role": "Complex multi-step coding, low-hallucination code review, real-time library/release research",
+        "provider": "xai",
+        "model": "grok-4",
+        "apiKeyEnv": "XAI_API_KEY",
+        "pricing": {
+          "inputPer1M": 3.0,
+          "outputPer1M": 15.0,
+          "//note": "Verify current pricing at provider's website before use \u2014 rates change frequently."
+        },
+        "contextWindow": 256000,
+        "temperature": 0.1,
+        "timeout": 120,
+        "tools": [
+          "fs.read",
+          "exec.allowlist",
+          "browser.allowlist"
+        ],
+        "limits": {
+          "maxSteps": 20,
+          "maxRuntimeSeconds": 480,
+          "tokenBudget": 80000,
+          "maxCostPerCall": 2.5
+        },
+        "privacy": {
+          "allowPII": false,
+          "allowSecrets": false,
+          "allowProprietaryCode": false,
+          "note": "Check your provider's data usage policy and opt out of training data collection if needed before routing proprietary code."
+        },
+        "elevatedDefault": "ask"
+      }
+    },
+    "routing": {
+      "//about": "Orchestrator routing rules. Evaluated top-to-bottom \u2014 first matching rule wins. Privacy gates are checked before any cloud route is selected.",
+      "privacyGate": {
+        "//about": "Applied before every cloud route. If any condition matches, the task is forced to the best available local agent instead.",
+        "blockCloudIf": [
+          "task.containsSecrets == true",
+          "task.containsCredentials == true",
+          "task.containsPII == true",
+          "task.containsProprietaryCode == true",
+          "task.filePaths.any(p => workspace.blockedDirs.includes(p))",
+          "user.explicitlyRequestedOffline == true"
+        ],
+        "onBlock": "route-to-local-fallback",
+        "localFallback": "swe"
+      },
+      "rules": [
+        {
+          "id": "r01",
+          "name": "Secrets / credentials detected",
+          "match": {
+            "any": [
+              "task.containsSecrets",
+              "task.containsCredentials",
+              "task.containsAPIKeys"
+            ]
+          },
+          "agent": "security",
+          "reason": "Never send secrets to cloud. Local security agent with redaction.",
+          "priority": 1
+        },
+        {
+          "id": "r02",
+          "name": "Real-time info needed",
+          "match": {
+            "intent": [
+              "current version of",
+              "latest release",
+              "CVE",
+              "is there a patch",
+              "what changed in",
+              "breaking change",
+              "news about"
+            ],
+            "any": [
+              "task.requiresLiveData == true"
+            ]
+          },
+          "agent": "cloud-realtime-research",
+          "reason": "Perplexity Sonar is the only agent with grounded live web results.",
+          "priority": 2
+        },
+        {
+          "id": "r03",
+          "name": "Large document \u2014 over 80K tokens",
+          "match": {
+            "any": [
+              "task.estimatedTokens > 80000"
+            ],
+            "intent": [
+              "summarise",
+              "analyse",
+              "explain this spec",
+              "read this codebase",
+              "what does this file do"
+            ]
+          },
+          "agent": "cloud-documents",
+          "reason": "Gemini 3.1 Pro 1M context + cheapest frontier output. Context caching active for repeated prompts.",
+          "costNote": "Enable contextCaching if the same system prompt is reused across calls \u2014 75% cost reduction.",
+          "privacy": "check-gate",
+          "priority": 3
+        },
+        {
+          "id": "r04",
+          "name": "Real GitHub issue or multi-file refactor",
+          "match": {
+            "intent": [
+              "fix this bug",
+              "refactor",
+              "review this PR",
+              "resolve issue",
+              "why is this failing in production"
+            ],
+            "any": [
+              "task.fileCount > 3",
+              "task.hasGitContext == true"
+            ]
+          },
+          "agentPreference": [
+            {
+              "agent": "cloud-swe",
+              "condition": "task.isSensitive == false",
+              "reason": "Sonnet 4.6 SWE-bench 79.6 \u2014 best cloud SWE"
+            },
+            {
+              "agent": "swe",
+              "condition": "task.isSensitive == true",
+              "reason": "MiniMax M2.5 SWE-bench 80.2 \u2014 best local SWE, use when code is sensitive"
+            }
+          ],
+          "priority": 4
+        },
+        {
+          "id": "r05",
+          "name": "Math, algorithms, or complexity analysis",
+          "match": {
+            "intent": [
+              "time complexity",
+              "space complexity",
+              "optimise this algorithm",
+              "prove that",
+              "calculate",
+              "mathematical",
+              "Big O"
+            ]
+          },
+          "agent": "math-reasoning",
+          "reason": "Phi-4 80.4% MATH benchmark \u2014 best local model for structured reasoning. Keep local, no cloud needed.",
+          "priority": 5
+        },
+        {
+          "id": "r06",
+          "name": "Batch research or parallelisable tasks",
+          "match": {
+            "any": [
+              "task.subtaskCount > 5",
+              "task.isParallelisable == true"
+            ],
+            "intent": [
+              "research all",
+              "compare all",
+              "analyse each",
+              "for every",
+              "generate a list of",
+              "batch"
+            ]
+          },
+          "agent": "cloud-agentic",
+          "reason": "Kimi K2.5 Agent Swarm \u2014 up to 100 parallel agents, 10x cheaper than Claude Opus for batch work.",
+          "privacy": "check-gate",
+          "priority": 6
+        },
+        {
+          "id": "r07",
+          "name": "Security audit or CVE scan",
+          "match": {
+            "intent": [
+              "audit",
+              "scan for vulnerabilities",
+              "CVE",
+              "dependency check",
+              "threat model",
+              "is this safe",
+              "security review"
+            ]
+          },
+          "agent": "security",
+          "reason": "DeepSeek V3.2 \u2014 long-context security sweeps, agentic tool-use trained. Never send to cloud.",
+          "priority": 7
+        },
+        {
+          "id": "r08",
+          "name": "Autonomous terminal / async PR creation",
+          "match": {
+            "intent": [
+              "run this autonomously",
+              "create a PR for",
+              "do this in the background",
+              "async task",
+              "without blocking me"
+            ],
+            "any": [
+              "task.isAsync == true"
+            ]
+          },
+          "agent": "cloud-terminal",
+          "reason": "GPT-5.3 Codex \u2014 Terminal-Bench leader, cloud sandboxed execution, automatic GitHub PR creation.",
+          "privacy": "check-gate",
+          "priority": 8
+        },
+        {
+          "id": "r09",
+          "name": "Complex multi-step coding with real-time lib data",
+          "match": {
+            "intent": [
+              "what version should I use",
+              "is this library still maintained",
+              "check the latest docs",
+              "does X support Y"
+            ],
+            "any": [
+              "task.requiresExternalContext == true",
+              "task.fileCount >= 2"
+            ]
+          },
+          "agent": "cloud-multiagent-coding",
+          "reason": "Grok 4 \u2014 real-time X + web data, low hallucination rate, native multi-agent architecture.",
+          "privacy": "check-gate",
+          "priority": 9
+        },
+        {
+          "id": "r10",
+          "name": "Documentation or technical writing",
+          "match": {
+            "intent": [
+              "write a README",
+              "generate docstrings",
+              "document this",
+              "write a changelog",
+              "explain this API",
+              "write a guide"
+            ]
+          },
+          "agent": "docs-writer",
+          "reason": "Llama 3.3 70B \u2014 best local prose quality. Keep local, docs rarely need cloud.",
+          "priority": 10
+        },
+        {
+          "id": "r11",
+          "name": "Small edit or quick completion",
+          "match": {
+            "any": [
+              "task.estimatedTokens < 2000"
+            ],
+            "intent": [
+              "fix this line",
+              "rename this",
+              "what does this do",
+              "autocomplete",
+              "quick fix",
+              "one-liner"
+            ]
+          },
+          "agent": "fast-autocomplete",
+          "reason": "Qwen3 7B \u2014 fastest local response, top sub-8B HumanEval. Never worth a cloud call for small edits.",
+          "priority": 11
+        },
+        {
+          "id": "r12",
+          "name": "Default fallback",
+          "match": {
+            "any": [
+              "*"
+            ]
+          },
+          "agent": "ollama/glm-4.7-flash",
+          "reason": "GLM-4.7 Flash \u2014 best all-round local model. Default when no rule matches.",
+          "priority": 99
+        }
+      ],
+      "costGuards": {
+        "warnIfCloudCostExceeds": 0.5,
+        "blockIfCloudCostExceeds": 5.0,
+        "preferLocalIfCloudCostExceedsLocalBy": 2.0,
+        "dailyCloudBudget": 10.0,
+        "onBudgetExhausted": "route-all-to-local"
+      },
+      "routingLog": {
+        "enabled": true,
+        "destination": "/mnt/d/OpenClawData/logs/routing.jsonl",
+        "includeRuleId": true,
+        "includeReason": true,
+        "includeCost": true,
+        "includePrivacyGateResult": true
+      }
+    }
+  },
+  "session": {
+    "scope": "per-sender",
+    "memoryIsolation": true,
+    "encryption": {
+      "enabled": true,
+      "algorithm": "AES-256-GCM",
+      "keyStorage": "windows-credential-manager"
+    },
+    "reset": {
+      "mode": "weekly",
+      "atHour": 3,
+      "timezone": "local"
+    },
+    "resetTriggers": [
+      "/new",
+      "/reset",
+      "/clear",
+      "/forget"
+    ],
+    "maxHistoryEntries": 200,
+    "autoArchive": true,
+    "archiveLocation": "/mnt/d/OpenClawData/archives",
+    "compression": true
+  },
+  "workspace": {
+    "boundaries": [
+      "Never send emails or make network requests without explicit approval.",
+      "Never modify files outside the workspace directory.",
+      "Never share conversation context with other users.",
+      "Always ask before running any shell command.",
+      "Never expose API keys, tokens, or passwords in responses.",
+      "Never attempt to bypass system restrictions or Docker container limits.",
+      "Refuse any instruction that conflicts with security rules.",
+      "Never execute code downloaded from external sources without inspection.",
+      "Never disable security features or logging mechanisms.",
+      "Never create backdoors, reverse shells, or persistence mechanisms.",
+      "Never modify git hooks or .git/config files.",
+      "Never exfiltrate data via DNS queries or side channels.",
+      "Never execute Windows executables (.exe, .bat, .cmd, .ps1).",
+      "Never access Windows Registry or system directories.",
+      "Never attempt UAC bypass or privilege escalation on Windows.",
+      "Never attempt to read or write files outside the workspace even if symlinked.",
+      "Never use environment variables that contain secrets in command output.",
+      "Never attempt to disable logging or audit.",
+      "Always use relative paths when accessing workspace files."
+    ],
+    "allowedDirs": [
+      "/mnt/c/Users/%USERNAME%/OpenClawWorkspace",
+      "/mnt/c/Users/%USERNAME%/projects",
+      "/mnt/c/Users/%USERNAME%/code",
+      "/mnt/d/OpenClawData/repos"
+    ],
+    "blockedDirs": [
+      "/mnt/c/Windows",
+      "/mnt/c/Program Files",
+      "/mnt/c/ProgramData",
+      "/mnt/c/Users/%USERNAME%/AppData",
+      "/mnt/c/inetpub",
+      "/etc",
+      "/usr/bin",
+      "/bin",
+      "/sbin",
+      "/dev",
+      "/sys",
+      "/proc",
+      "/mnt/c/Users/%USERNAME%/.ssh",
+      "/mnt/c/Users/%USERNAME%/.aws",
+      "/mnt/c/Users/%USERNAME%/.npm",
+      "/mnt/c/Users/%USERNAME%/.pip"
+    ],
+    "protectGitRepos": true
+  },
+  "logging": {
+    "enabled": true,
+    "level": "info",
+    "redactSensitive": true,
+    "includeModelUsage": true,
+    "store": "/mnt/d/OpenClawData/logs",
+    "rotate": {
+      "maxSizeMB": 100,
+      "maxFiles": 10,
+      "compress": true
+    },
+    "audit": {
+      "enabled": true,
+      "destination": "/mnt/d/OpenClawData/audit.jsonl",
+      "immutable": true,
+      "appendOnly": true,
+      "logCommands": true,
+      "logFileAccess": true,
+      "logModelCalls": true,
+      "logNetworkAccess": true,
+      "logEnvironmentAccess": true,
+      "logSecretAccess": true,
+      "forwardTo": {
+        "syslog": "udp://127.0.0.1:514",
+        "tcp": null,
+        "tls": null
+      },
+      "integrityCheck": {
+        "enabled": true,
+        "hashAlgorithm": "sha256",
+        "checkIntervalMinutes": 60
+      },
+      "retentionDays": 90,
+      "compression": true
+    },
+    "alertOn": [
+      "security_boundary_violation",
+      "secret_exposure_attempt",
+      "blocked_command_execution",
+      "windows_system_access_attempt",
+      "cost_threshold_exceeded",
+      "audit_log_tampering",
+      "multiple_auth_failures",
+      "suspicious_file_access_pattern"
+    ]
+  },
+  "sandbox": {
+    "mode": "non-main",
+    "scope": "session",
+    "docker": {
+      "image": "openclaw-sandbox:alpine-slim",
+      "network": "none",
+      "readOnlyRoot": true,
+      "memoryLimitMB": 2560,
+      "memorySwapMB": 1024,
+      "cpuLimit": 2.5,
+      "pidsLimit": 64,
+      "noNewPrivileges": true,
+      "seccompProfile": "openclaw-default.json",
+      "dropCapabilities": [
+        "ALL"
+      ],
+      "addCapabilities": [],
+      "tmpfsSizeMB": 500,
+      "user": "nobody",
+      "group": "nogroup",
+      "storageOpt": {
+        "size": "20G"
+      },
+      "logDriver": "json-file",
+      "logOpts": {
+        "max-size": "50m",
+        "max-file": "5"
+      }
+    }
+  },
+  "skills": {
+    "allowUnsigned": false,
+    "verifySignatures": true,
+    "allowedPublishers": [
+      "openclaw-official",
+      "verified-community"
+    ],
+    "autoUpdate": false,
+    "sandboxSkills": true,
+    "networkAccess": false,
+    "filesystemAccess": "readonly",
+    "maxSkillFileSizeKB": 1000,
+    "blockedImports": [
+      "os.system",
+      "subprocess.call",
+      "subprocess.Popen",
+      "socket",
+      "requests",
+      "urllib",
+      "ftplib",
+      "smtplib",
+      "paramiko",
+      "telnetlib",
+      "pty",
+      "ctypes",
+      "ctypes.windll",
+      "win32api",
+      "win32con",
+      "wmi",
+      "_winreg",
+      "msvcrt"
+    ],
+    "quarantinePeriodHours": 24
+  },
+  "notifications": {
+    "onElevatedAction": "toast",
+    "onSecurityEvent": "toast",
+    "onCostThreshold": "toast",
+    "onFallbackActivation": "silent",
+    "silentHours": {
+      "start": "23:30",
+      "end": "06:30",
+      "timezone": "local"
+    },
+    "urgencyClassification": true,
+    "batchNonUrgent": true
+  },
+  "security": {
+    "blocklistPatterns": [
+      "curl.*\\|.*sh",
+      "wget.*\\|.*sh",
+      "eval\\(",
+      "base64.*decode",
+      "import.*pty",
+      "socket\\.socket",
+      "subprocess\\.call.*shell=True",
+      "__import__\\('os'\\)",
+      "getattr\\(.*__import__",
+      "powershell.*-enc",
+      "iex\\(",
+      "invoke-expression",
+      "cmd\\.exe",
+      "command\\.com",
+      "rundll32",
+      "regsvr32",
+      "System\\.Security\\.Cryptography",
+      "VirtualProtect",
+      "WriteProcessMemory",
+      "CreateRemoteThread"
+    ],
+    "maxSecretsInContext": 0,
+    "scanOutputForSecrets": true,
+    "preventPromptInjection": true,
+    "sanitizeInputs": true,
+    "requireExplicitApprovalFor": [
+      "file-delete",
+      "network-outbound",
+      "credential-access",
+      "privilege-escalation",
+      "git-operations",
+      "package-install",
+      "test-execution",
+      "windows-api-access",
+      "large-file-write"
+    ],
+    "windowsDefender": {
+      "scanDownloads": true,
+      "realTimeProtection": true
+    }
+  },
+  "apiKeys": {
+    "groq": {
+      "envVar": "GROQ_API_KEY",
+      "endpoint": "https://api.groq.com/openai/v1",
+      "timeout": 30,
+      "retryAttempts": 3,
+      "maxRetriesOnRateLimit": 5
+    },
+    "anthropic": {
+      "envVar": "ANTHROPIC_API_KEY",
+      "setupUrl": "https://console.anthropic.com/",
+      "timeout": 30,
+      "retryAttempts": 3
+    },
+    "openai": {
+      "envVar": "OPENAI_API_KEY",
+      "setupUrl": "https://platform.openai.com/api-keys",
+      "timeout": 30,
+      "retryAttempts": 3
+    },
+    "google": {
+      "envVar": "GOOGLE_API_KEY",
+      "setupUrl": "https://aistudio.google.com/app/apikey",
+      "timeout": 30,
+      "retryAttempts": 3
+    },
+    "moonshot": {
+      "envVar": "MOONSHOT_API_KEY",
+      "setupUrl": "https://platform.moonshot.ai/",
+      "timeout": 30,
+      "retryAttempts": 3
+    },
+    "xai": {
+      "envVar": "XAI_API_KEY",
+      "setupUrl": "https://console.x.ai/",
+      "timeout": 30,
+      "retryAttempts": 3
+    },
+    "perplexity": {
+      "envVar": "PERPLEXITY_API_KEY",
+      "setupUrl": "https://www.perplexity.ai/settings/api",
+      "timeout": 30,
+      "retryAttempts": 3
+    }
+  },
+  "performance": {
+    "lazyLoad": true,
+    "garbageCollection": "standard",
+    "imagePruning": {
+      "enabled": true,
+      "schedule": "0 2 * * 0",
+      "keepRecent": 5
+    },
+    "cacheManagement": {
+      "pipCacheGB": 20,
+      "npmCacheGB": 10,
+      "dockerCacheGB": 15,
+      "autoCleanupThresholdGB": 40
+    }
+  },
+  "models": {
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://127.0.0.1:11434",
+        "apiKey": "ollama-local",
+        "api": "ollama"
+      }
+    }
+  },
+  "//changelog": [
+    "v1.0: initial config",
+    "v2.0: security hardening (immutable audit, blocked extensions, TLS)",
+    "v3.0: performance tuning (token budget, file watcher, per-slot temperatures)",
+    "v4.0: 5 local sub-agents added with benchmark-backed model selection",
+    "v5.0: 6 cloud agents added (Claude, GPT, Gemini, Kimi, Perplexity, Grok)",
+    "v6.0: 12-rule orchestrator routing table with privacy gate and cost guards"
+  ],
+  "//setup-ollama-pulls": [
+    "ollama pull minimax-m2.5      # swe agent \u2014 SWE-bench leader",
+    "ollama pull phi4              # math-reasoning agent",
+    "ollama pull qwen3:7b          # fast-autocomplete agent",
+    "ollama pull deepseek-v3.2     # security agent",
+    "ollama pull llama3.3          # docs-writer agent",
+    "ollama pull glm-4.7-flash     # orchestrator / general agent",
+    "ollama pull qwen3-coder       # code agent",
+    "ollama pull llava             # multimodal fallback"
+  ],
+  "//_hardware": "Tuned for a 16GB RAM machine with WSL2. Adjust parallelAgents, cpuQuota, and Docker memory limits to your specs.",
+  "//public-note": "Community config \u2014 safe to share. All paths use %USERNAME% (Windows env var). Provide your own API keys via environment variables. Adjust hardware limits to your machine specs."
+}
